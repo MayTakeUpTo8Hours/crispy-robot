@@ -99,11 +99,11 @@ persistenseService:
     useIncludedInstance: false
     dbHostname: persistence-service
     dbPort: 27017
-    replicaSetKey:
-    dbConnectionSuffix:
+    replicaSetKey: ""
+    dbConnectionSuffix: ""
     user:
-      username:
-      password:
+      username: ""
+      password: ""
 
 platformConfiguration:
   hostname: platform-configuration
@@ -157,7 +157,7 @@ containerimages:
     deviceManagementRepo: device-management
     identityServiceRepo: identity-service
     iiotApiRepo: iiot-api
-    persistence-service: 
+    persistence-service: persistence-service
     platformConfigurationRepo: platform-configuration
     proxyServiceRepo: proxy-service
     serviceConfigurationStudioRepo: service-configuration-studio

@@ -71,7 +71,7 @@
                             "type": "string"
                         },
                         "persistence-service": {
-                            "type": "null"
+                            "type": "string"
                         },
                         "platformConfigurationRepo": {
                             "type": "string"
@@ -299,7 +299,7 @@
                     "type": "object",
                     "properties": {
                         "dbConnectionSuffix": {
-                            "type": "null"
+                            "type": "string"
                         },
                         "dbHostname": {
                             "type": "string"
@@ -308,7 +308,7 @@
                             "type": "integer"
                         },
                         "replicaSetKey": {
-                            "type": "null"
+                            "type": "string"
                         },
                         "useIncludedInstance": {
                             "type": "boolean"
@@ -317,10 +317,10 @@
                             "type": "object",
                             "properties": {
                                 "password": {
-                                    "type": "null"
+                                    "type": "string"
                                 },
                                 "username": {
-                                    "type": "null"
+                                    "type": "string"
                                 }
                             }
                         }
