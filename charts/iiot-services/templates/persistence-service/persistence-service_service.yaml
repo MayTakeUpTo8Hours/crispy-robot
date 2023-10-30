@@ -1,0 +1,16 @@
+{{ if .Values.persistenseService.mongodb.useIncludedInstance }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: persistence-service
+  labels:
+    app: persistence-service
+spec:
+  type: ClusterIP
+  ports:
+  - name: "27017"
+    port: {{ .Values.mongodb.dbPort }}
+    targetPort: 27017
+  selector:
+    app: persistence-service
+{{ end }}

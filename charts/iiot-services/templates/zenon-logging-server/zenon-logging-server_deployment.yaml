@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zenon-logging-server
+  labels:
+    app: zenon-logging-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zenon-logging-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: zenon-logging-server
+    spec:
+      hostname: zenon-logging-server
+      containers:
+      - name: zenon-logging-server
+        image: {{ .Values.containerimages.iiotServicesRegistry }}/{{ .Values.containerimages.iiotServicesRepos.zenonLoggingServerRepo }}:{{ index .Values.containerimages.tags.zenonLoggingServer }}
+        imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
+        ports:
+        - containerPort: 50780
+        volumeMounts:
+        - mountPath: /etc/copa-data
+          name: zenon-logging-server-log-config
+        - mountPath: /var/log/copa-data
+          name: zenon-logging-server-log-files
+      restartPolicy: Always
+      imagePullSecrets: {{ toYaml .Values.containerimages.imagePullSecrets | nindent 8 }}
+{{ if .Values.enableNodeSelectorLinux}}
+      nodeSelector:
+        kubernetes.io/os: linux
+{{ end }}
+      volumes:
+      - name: zenon-logging-server-log-config
+        persistentVolumeClaim:
+          claimName: {{ .Values.zenonLoggingServer.configVolume.name }}  
+      - name: zenon-logging-server-log-files
+        persistentVolumeClaim:
+          claimName: {{ .Values.zenonLoggingServer.persistingVolume.name }}

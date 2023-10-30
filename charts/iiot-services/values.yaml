@@ -1,0 +1,167 @@
+# Default values for iiot-services.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# Required values are:
+# persistenseService.mongodb.user.username
+# persistenseService.mongodb.user.password
+# persistenseService.mongodb.replicaSetKey
+# domains.iiotServicesDomain
+# domains.dataHubDomain
+# datahub.loadbalancerIp
+
+# should have that nodeselector everywhere by default
+#
+enableNodeSelectorLinux: true
+
+#
+ingress:
+  iiotServicesDomain: somedomain.internal
+  dataHubDomain: datahub.somedomain.internal
+  enableIngress: true
+  enableProxyService: false
+  annotations: []
+
+#
+healthprobes:
+  startupDelay: 60
+  pollingPeriod: 30
+
+sharedVolume:
+  name: iiot-services-data
+  size: 100MiB
+  accessModes: 
+    - ReadWriteMany
+
+certificateManagement:
+  hostname: certificate-management #
+  port9410: 9410
+  port9412: 9412
+  persistingVolume:
+    name: certificate-management-persistence
+    size: 100MiB
+    accessModes: 
+    - ReadWriteMany
+
+dashboard:
+  hostname: dashboard
+
+dataHub:
+  hostname: data-hub #
+  loadbalancerIp: 0.0.0.0 #
+  portInternal9411: 9411 #
+  portExternal9411: 9431 #
+  certVolume:
+    name: data-hub-certs
+    size: 100MiB
+    accessModes: 
+    - ReadWriteMany
+  persistingVolume:
+    name: data-hub-persistence
+    size: 100MiB
+    accessModes: 
+    - ReadWriteMany
+
+
+dataModelling:
+  hostname: data-modelling
+  port9440: 9440
+
+dataStorage:
+  hostname: data-storage
+  port9460: 9460
+
+deviceManagement:
+  hostname: device-management
+  port9415: 9415
+
+identityService:
+  hostname: identity-service
+  port9430: 9430
+
+iiotApi:
+  hostname: iiot-api
+  port9400: 9400
+
+redis:
+  hostname: iiot-services-redis #
+  redisPort6379: 6379
+
+persistenseService:
+  persistenseServiceName: persistence-service
+  persistingVolume:
+    name: persistence-service-persistence
+    size: 1GiB
+    accessModes: 
+    - ReadWriteMany
+  mongodb:
+    useIncludedInstance: false
+    dbHostname: persistence-service
+    dbPort: 27017
+    replicaSetKey:
+    dbConnectionSuffix:
+    user:
+      username:
+      password:
+
+platformConfiguration:
+  hostname: platform-configuration
+  port9470: 9470
+
+proxyService:
+  hostname: proxy-service
+  port9443: 9443
+
+serviceConfigurationStudio:
+  hostname: service-configuration-studio
+  port9450: 9450
+
+zenonLoggingServer:
+  hostname: zenon-logging-server
+  port50780: 50780
+  configVolume:
+    name: zenon-logging-server-config
+    size: 100MiB
+    accessModes: 
+    - ReadWriteMany
+  persistingVolume:
+    name: zenon-logging-server-persistence
+    size: 100MiB
+    accessModes: 
+    - ReadWriteMany
+
+
+containerimages:
+
+  imagePullSecrets: 
+    - name: acr-copadata
+    - name: acr-copadatacanary
+
+  imagePullPolicy: Always
+
+  iiotServicesRegistry: copadatacanary.azurecr.io
+  iiotServicesRepoPrefix: master
+
+  tags:
+    iiotServices: "latest"
+    zenonLoggingServer: "latest"
+    redis: "7.0.11-alpine3.18"
+    mongodb: "6.0.6" # TODO: use persistence-service from iiot services...
+
+  iiotServicesRepos:
+    certificateManagementRepo: certificate-management
+    dataHubRepo: data-hub
+    dataModellingRepo: data-modelling
+    dataStorageRepo: data-storage
+    deviceManagementRepo: device-management
+    identityServiceRepo: identity-service
+    iiotApiRepo: iiot-api
+    persistence-service: 
+    platformConfigurationRepo: platform-configuration
+    proxyServiceRepo: proxy-service
+    serviceConfigurationStudioRepo: service-configuration-studio
+    zenonLoggingServerRepo: zenon-logging-server
+
+  thirdPartyRepos:
+    redisRepo: redis
+    mongodbRepo: bitnami/mongodb

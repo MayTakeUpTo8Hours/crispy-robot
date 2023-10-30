@@ -1,0 +1,11 @@
+# Persistent Volume Claim
+# Shared Volume for central storage location of HTTPS certificate, certificate bundles for all IIoT Services
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: iiot-services-data
+spec:
+  accessModes: {{ toYaml .Values.sharedVolume.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: 100Mi

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: device-management
+  labels:
+    app: device-management
+spec:
+  type: ClusterIP
+  ports:
+  - name: "9415"
+    port: {{ .Values.deviceManagement.port9415 }}
+    targetPort: 9415
+  selector:
+    app: device-management

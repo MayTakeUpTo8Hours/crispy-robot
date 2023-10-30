@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-modelling
+  labels:
+    app: data-modelling
+spec:
+  ports:
+  - name: "9440"
+    targetPort: 9440
+    port: {{ .Values.dataModelling.port9440 }}
+  selector:
+    app: data-modelling

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: platform-configuration
+  name: platform-configuration
+spec:
+  type: ClusterIP
+  ports:
+  - name: "9470"
+    port: {{ .Values.platformConfiguration.port9470 }}
+    targetPort: 9470
+  selector:
+    app: platform-configuration

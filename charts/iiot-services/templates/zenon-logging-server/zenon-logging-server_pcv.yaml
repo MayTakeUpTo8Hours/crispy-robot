@@ -1,0 +1,27 @@
+# Persistent Volume Claim for storing log configuration
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    service: zenon-logging-server
+  name: {{ .Values.zenonLoggingServer.configVolume.name }}
+spec:
+  accessModes: {{ toYaml .Values.zenonLoggingServer.configVolume.accessModes | nindent 4 }}
+
+  resources:
+    requests:
+      storage: {{ .Values.zenonLoggingServer.configVolume.size }}
+---
+# Persistent Volume Claim for storing log files
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    service: zenon-logging-server
+  name: {{ .Values.zenonLoggingServer.persistingVolume.name }}
+spec:
+  accessModes: {{ toYaml .Values.zenonLoggingServer.persistingVolume.accessModes | nindent 4 }}
+
+  resources:
+    requests:
+      storage: {{ .Values.zenonLoggingServer.persistingVolume.size }}

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iiot-services-redis
+  labels:
+    app: iiot-services-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: iiot-services-redis
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: iiot-services-redis
+    spec:
+      hostname: iiot-services-redis
+      containers:
+      - image: "{{ .Values.containerimages.thirdPartyRepos.redisRepo }}:{{ .Values.containerimages.tags.redis }}"
+        name: iiot-services-redis
+        ports:
+        - containerPort: 6379
+      restartPolicy: Always
+{{ if .Values.enableNodeSelectorLinux}}
+      nodeSelector:
+        kubernetes.io/os: linux
+{{ end }}

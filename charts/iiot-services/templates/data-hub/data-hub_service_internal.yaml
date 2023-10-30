@@ -1,0 +1,15 @@
+# This second service is required to make the Data Hub also accessible in the local virtual network using port 9411
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-hub-internal
+  labels:
+    app: data-hub
+spec:
+  type: ClusterIP
+  ports:
+  - name: {{ .Values.dataHub.portInternal9411 | quote }}
+    targetPort: {{ .Values.dataHub.portInternal9411 }}
+    port: {{ .Values.dataHub.portInternal9411 }}
+  selector:
+    app: data-hub

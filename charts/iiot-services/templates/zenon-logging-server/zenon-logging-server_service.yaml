@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zenon-logging-server
+  labels:
+    app: zenon-logging-server
+spec:
+  type: ClusterIP
+  ports:
+  - name: "50780"
+    port: {{ .Values.zenonLoggingServer.port50780 }}
+    targetPort: 50780
+  selector:
+    app: zenon-logging-server

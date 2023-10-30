@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform-configuration
+  labels:
+    app: platform-configuration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: platform-configuration
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: platform-configuration
+    spec:
+      containers:
+      - name: platform-configuration
+        image: "{{ .Values.containerimages.iiotServicesRegistry }}/{{ .Values.containerimages.iiotServicesRepoPrefix }}/{{ index .Values.containerimages.iiotServicesRepos.platformConfigurationRepo }}:{{ index .Values.containerimages.tags.iiotServices }}"
+        imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
+        env:
+        - name: PLATFORM_CONFIGURATION_SgSystemConfiguration__AdminUser
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: username
+        - name: PLATFORM_CONFIGURATION_SgSystemConfiguration__AdminUserPassword
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: password
+        - name: PLATFORM_CONFIGURATION_SgSystemConfiguration__DatabaseUri
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: mongodb-uri
+        - name: PLATFORM_CONFIGURATION_Redis__Host
+          value: {{ .Values.redis.hostname }}
+        - name: PLATFORM_CONFIGURATION_ExternalNameConfiguration__Names__0
+          value: {{ .Values.ingress.iiotServicesDomain }}
+        ports:
+        - containerPort: 9470
+        volumeMounts:
+        - mountPath: /var/hub-controller-certificates/certs/
+          name: certificate-management
+        - mountPath: /var/iiot-services-data
+          name: iiot-services-data
+        # TODO: find out if the ingress HTTPS certificate from letsencrypt needs to be mounted?
+        # - name: mnt
+        #   mountPath: /certs/ingress.crt
+        #   subPath: ingress-https-cert
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8080
+          initialDelaySeconds: {{ .Values.healthprobes.startupDelay }}
+          periodSeconds: {{ .Values.healthprobes.pollingPeriod }}
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8080
+          initialDelaySeconds: {{ .Values.healthprobes.startupDelay }}
+          periodSeconds: {{ .Values.healthprobes.pollingPeriod }}
+      restartPolicy: Always
+      imagePullSecrets: {{ toYaml .Values.containerimages.imagePullSecrets | nindent 8 }}
+{{ if .Values.enableNodeSelectorLinux}}
+      nodeSelector:
+        kubernetes.io/os: linux
+{{ end }}
+      volumes:
+      - name: certificate-management
+        persistentVolumeClaim:
+          claimName: {{ .Values.certificateManagement.persistingVolume.name }}
+      - name: iiot-services-data
+        persistentVolumeClaim:
+          claimName: {{ .Values.sharedVolume.name }}
+      # TODO: find out if the ingress HTTPS certificate from letsencrypt needs to be mounted?
+      # - name: mnt
+      #   configMap:
+      #     name: env-settings

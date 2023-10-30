@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: certificate-management
+  labels:
+    app: certificate-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: certificate-management
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: certificate-management
+    spec:
+      containers:
+      - name: certificate-management
+        image: "{{ .Values.containerimages.iiotServicesRegistry }}/{{ .Values.containerimages.iiotServicesRepoPrefix }}/{{ .Values.containerimages.iiotServicesRepos.certificateManagementRepo }}:{{ .Values.containerimages.tags.iiotServices }}"
+        imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
+        env:
+        - name: CERTIFICATEMANAGEMENT_SgSystemConfiguration__DatabaseUri
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: mongodb-uri
+        - name: CERTIFICATEMANAGEMENT_DataHubConfig__DefaultUrl
+          value: {{ .Values.ingress.dataHubDomain }}
+        - name: CERTIFICATEMANAGEMENT_DataHubConfig__DefaultPort
+          value: {{ .Values.dataHub.portExternal9411 | quote }}
+        - name: CERTIFICATEMANAGEMENT_DataHubConfig__InternalDataHubUrl
+          value: data-hub-internal
+        - name: CERTIFICATEMANAGEMENT_DataHubConfig__InternalDataHubPort
+          value: {{ .Values.dataHub.portInternal9411 | quote }}
+        - name: CERTIFICATEMANAGEMENT_SgSystemConfiguration__AdminUser
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: username
+        - name: CERTIFICATEMANAGEMENT_SgSystemConfiguration__AdminUserPassword
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: password
+        - name: CERTIFICATEMANAGEMENT_ExternalNameConfiguration__Names__0
+          value: {{ .Values.ingress.iiotServicesDomain }}
+        - name: CERTIFICATEMANAGEMENT_ExternalNameConfiguration__Names__1
+          value: localhost
+        - name: CERTIFICATEMANAGEMENT_ExternalNameConfiguration__Names__2
+          value: {{ .Values.certificateManagement.hostname }}
+        - name: CERTIFICATEMANAGEMENT_Redis__Host
+          value: {{ .Values.redis.hostname }}
+        ports:
+        - containerPort: 9410
+        - containerPort: 9412
+        volumeMounts:
+        - mountPath: /app/ControlHub/certs/
+          name: certificate-management
+        - mountPath: /var/iiot-services-data/
+          name: iiot-services-data
+        - mountPath: /mosquitto/certs
+          name: data-hub
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8080
+          initialDelaySeconds: {{ .Values.healthprobes.startupDelay }}
+          periodSeconds: {{ .Values.healthprobes.pollingPeriod }}
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8080
+          initialDelaySeconds: {{ .Values.healthprobes.startupDelay }}
+          periodSeconds: {{ .Values.healthprobes.pollingPeriod }}
+      restartPolicy: Always
+      imagePullSecrets: {{ toYaml .Values.containerimages.imagePullSecrets | nindent 8 }}
+      {{ if .Values.enableNodeSelectorLinux}}
+      nodeSelector:
+        kubernetes.io/os: linux
+      {{ end }}
+      volumes:
+      - name: certificate-management
+        persistentVolumeClaim:
+          claimName: {{ .Values.certificateManagement.persistingVolume.name }}
+      - name: data-hub
+        persistentVolumeClaim:
+          claimName: {{ .Values.dataHub.certVolume.name}}
+      - name: iiot-services-data
+        persistentVolumeClaim:
+          claimName: {{ .Values.sharedVolume.name }}

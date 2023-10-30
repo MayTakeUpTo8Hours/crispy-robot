@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app: identity-service
+  name: identity-service
+spec:
+  type: ClusterIP
+  ports:
+  - name: "9430"
+    port: {{ .Values.identityService.port9430 }}
+    targetPort: 9430
+  selector:
+    app: identity-service

@@ -1,0 +1,57 @@
+{{ if .Values.persistenseService.mongodb.useIncludedInstance }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persistence-service
+  labels:
+    app: persistence-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: persistence-service
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: persistence-service
+    spec:
+      containers:
+      - name: persistence-service
+        image: "{{ index .Values.containerimages.thirdPartyRepos.mongodbRepo }}:{{ index .Values.containerimages.tags.mongodb }}"
+        imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - mountPath: /bitnami/mongodb
+          name: persistence-service
+        env:
+        - name: MONGODB_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: username
+        - name: MONGODB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: password
+        - name: MONGODB_REPLICA_SET_MODE
+          value: primary
+        - name: MONGODB_REPLICA_SET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: persistence-service-credentials
+              key: replicasetkey
+        name: persistence-service
+      restartPolicy: Always
+      volumes:
+      - name: persistence-service
+        persistentVolumeClaim:
+          claimName: {{ .Values.persistenseService.persistingVolume.name }}
+{{ if .Values.enableNodeSelectorLinux}}
+      nodeSelector:
+        kubernetes.io/os: linux
+{{ end }}
+{{ end }}

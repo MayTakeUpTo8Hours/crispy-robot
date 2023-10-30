@@ -1,0 +1,14 @@
+{{ if .Values.persistenseService.mongodb.useIncludedInstance }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    service: persistence-service
+  name: {{ .Values.persistenseService.persistingVolume.name }}
+spec:
+  accessModes:
+  accessModes: {{ toYaml .Values.persistenseService.persistingVolume.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.persistenseService.persistingVolume.size }}
+{{end}}

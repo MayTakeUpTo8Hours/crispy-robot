@@ -1,0 +1,18 @@
+# External accessible Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: data-hub
+  labels:
+    app: data-hub
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: MC_AzureKubernetesCluster-ResourceGroup_AzureKubernetesCluster_westeurope
+spec:
+  type: LoadBalancer
+  loadBalancerIP: {{ .Values.dataHub.loadbalancerIp }}
+  ports:
+  - name: {{ .Values.dataHub.portInternal9411 | quote }}
+    targetPort: {{ .Values.dataHub.portInternal9411 }}
+    port: {{ .Values.dataHub.portExternal9411 }}
+  selector:
+    app: data-hub

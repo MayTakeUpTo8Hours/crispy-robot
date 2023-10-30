@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-hub
+  labels:
+    app: data-hub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-hub
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: data-hub
+    spec:
+      containers:
+      - name: data-hub
+        image: "{{ .Values.containerimages.iiotServicesRegistry }}/{{ .Values.containerimages.iiotServicesRepoPrefix }}/{{ index .Values.containerimages.iiotServicesRepos.dataHubRepo }}:{{ index .Values.containerimages.tags.iiotServices }}"
+        imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
+        ports:
+        - containerPort: 9411
+        volumeMounts:
+        - mountPath: /mosquitto/data
+          name: data-hub-persistence
+        - mountPath: /mosquitto/certs/
+          name: data-hub
+        - mountPath: /var/iiot-services-data
+          name: iiot-services-data
+      restartPolicy: Always
+      imagePullSecrets: {{ toYaml .Values.containerimages.imagePullSecrets | nindent 8 }}
+{{ if .Values.enableNodeSelectorLinux}}
+      nodeSelector:
+        kubernetes.io/os: linux
+{{ end }}
+      volumes:
+      - name: data-hub-persistence
+        persistentVolumeClaim:
+          claimName: {{ .Values.dataHub.persistingVolume.name }}
+      - name: data-hub
+        persistentVolumeClaim:
+          claimName: {{ .Values.dataHub.certVolume.name }}
+      - name: iiot-services-data
+        persistentVolumeClaim:
+          claimName: {{ .Values.sharedVolume.name }}

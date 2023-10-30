@@ -1,0 +1,25 @@
+# Persistent Volume Claim used by the Data Hub to store its mqtt retained payloads, db, ...
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    service: data-hub
+  name: {{ .Values.dataHub.persistingVolume.name }}
+spec:
+  accessModes: {{ toYaml .Values.dataHub.persistingVolume.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.dataHub.persistingVolume.size }}
+---
+# Persistent Volume Claim used from the Data Hub to extract its certificate bundle to
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    service: data-hub
+  name: {{ .Values.dataHub.certVolume.name }}
+spec:
+  accessModes: {{ toYaml .Values.dataHub.certVolume.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.dataHub.certVolume.size }}

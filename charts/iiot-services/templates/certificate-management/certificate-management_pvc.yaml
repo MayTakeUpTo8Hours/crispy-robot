@@ -1,0 +1,12 @@
+# used for storing ca.key and ca.pfx
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    service: certificate-management
+  name: {{ .Values.certificateManagement.persistingVolume.name }}
+spec:
+  accessModes: {{ toYaml .Values.certificateManagement.persistingVolume.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.certificateManagement.persistingVolume.size}}
