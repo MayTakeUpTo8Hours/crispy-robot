@@ -1,0 +1,441 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "type": "object",
+    "properties": {
+        "certificateManagement": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "persistingVolume": {
+                    "type": "object",
+                    "properties": {
+                        "accessModes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "port9410": {
+                    "type": "integer"
+                },
+                "port9412": {
+                    "type": "integer"
+                }
+            }
+        },
+        "containerimages": {
+            "type": "object",
+            "properties": {
+                "iiotServicesRegistry": {
+                    "type": "string"
+                },
+                "iiotServicesRepoPrefix": {
+                    "type": "string"
+                },
+                "iiotServicesRepos": {
+                    "type": "object",
+                    "properties": {
+                        "certificateManagementRepo": {
+                            "type": "string"
+                        },
+                        "dataHubRepo": {
+                            "type": "string"
+                        },
+                        "dataModellingRepo": {
+                            "type": "string"
+                        },
+                        "dataStorageRepo": {
+                            "type": "string"
+                        },
+                        "deviceManagementRepo": {
+                            "type": "string"
+                        },
+                        "identityServiceRepo": {
+                            "type": "string"
+                        },
+                        "iiotApiRepo": {
+                            "type": "string"
+                        },
+                        "persistence-service": {
+                            "type": "null"
+                        },
+                        "platformConfigurationRepo": {
+                            "type": "string"
+                        },
+                        "proxyServiceRepo": {
+                            "type": "string"
+                        },
+                        "serviceConfigurationStudioRepo": {
+                            "type": "string"
+                        },
+                        "zenonLoggingServerRepo": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "imagePullPolicy": {
+                    "type": "string"
+                },
+                "imagePullSecrets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "tags": {
+                    "type": "object",
+                    "properties": {
+                        "iiotServices": {
+                            "type": "string"
+                        },
+                        "mongodb": {
+                            "type": "string"
+                        },
+                        "redis": {
+                            "type": "string"
+                        },
+                        "zenonLoggingServer": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "thirdPartyRepos": {
+                    "type": "object",
+                    "properties": {
+                        "mongodbRepo": {
+                            "type": "string"
+                        },
+                        "redisRepo": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "dashboard": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                }
+            }
+        },
+        "dataHub": {
+            "type": "object",
+            "properties": {
+                "certVolume": {
+                    "type": "object",
+                    "properties": {
+                        "accessModes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "loadbalancerIp": {
+                    "type": "string"
+                },
+                "persistingVolume": {
+                    "type": "object",
+                    "properties": {
+                        "accessModes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "portExternal9411": {
+                    "type": "integer"
+                },
+                "portInternal9411": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dataModelling": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "port9440": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dataStorage": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "port9460": {
+                    "type": "integer"
+                }
+            }
+        },
+        "deviceManagement": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "port9415": {
+                    "type": "integer"
+                }
+            }
+        },
+        "enableNodeSelectorLinux": {
+            "type": "boolean"
+        },
+        "healthprobes": {
+            "type": "object",
+            "properties": {
+                "pollingPeriod": {
+                    "type": "integer"
+                },
+                "startupDelay": {
+                    "type": "integer"
+                }
+            }
+        },
+        "identityService": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "port9430": {
+                    "type": "integer"
+                }
+            }
+        },
+        "iiotApi": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "port9400": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "annotations": {
+                    "type": "array"
+                },
+                "dataHubDomain": {
+                    "type": "string"
+                },
+                "enableIngress": {
+                    "type": "boolean"
+                },
+                "enableProxyService": {
+                    "type": "boolean"
+                },
+                "iiotServicesDomain": {
+                    "type": "string"
+                }
+            }
+        },
+        "persistenseService": {
+            "type": "object",
+            "properties": {
+                "mongodb": {
+                    "type": "object",
+                    "properties": {
+                        "dbConnectionSuffix": {
+                            "type": "null"
+                        },
+                        "dbHostname": {
+                            "type": "string"
+                        },
+                        "dbPort": {
+                            "type": "integer"
+                        },
+                        "replicaSetKey": {
+                            "type": "null"
+                        },
+                        "useIncludedInstance": {
+                            "type": "boolean"
+                        },
+                        "user": {
+                            "type": "object",
+                            "properties": {
+                                "password": {
+                                    "type": "null"
+                                },
+                                "username": {
+                                    "type": "null"
+                                }
+                            }
+                        }
+                    }
+                },
+                "persistenseServiceName": {
+                    "type": "string"
+                },
+                "persistingVolume": {
+                    "type": "object",
+                    "properties": {
+                        "accessModes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "platformConfiguration": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "port9470": {
+                    "type": "integer"
+                }
+            }
+        },
+        "proxyService": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "port9443": {
+                    "type": "integer"
+                }
+            }
+        },
+        "redis": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "redisPort6379": {
+                    "type": "integer"
+                }
+            }
+        },
+        "serviceConfigurationStudio": {
+            "type": "object",
+            "properties": {
+                "hostname": {
+                    "type": "string"
+                },
+                "port9450": {
+                    "type": "integer"
+                }
+            }
+        },
+        "sharedVolume": {
+            "type": "object",
+            "properties": {
+                "accessModes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                },
+                "size": {
+                    "type": "string"
+                }
+            }
+        },
+        "zenonLoggingServer": {
+            "type": "object",
+            "properties": {
+                "configVolume": {
+                    "type": "object",
+                    "properties": {
+                        "accessModes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "hostname": {
+                    "type": "string"
+                },
+                "persistingVolume": {
+                    "type": "object",
+                    "properties": {
+                        "accessModes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "port50780": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
