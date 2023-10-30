@@ -1,9 +1,12 @@
 {
     "$schema": "http://json-schema.org/schema#",
+    "title": "iiot-services",
+    "description": "The COPA-DATA zenon Iiot Services.",
     "type": "object",
     "properties": {
         "certificateManagement": {
             "type": "object",
+            "description": "Values specific to the Certificate Management Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -129,6 +132,7 @@
         },
         "dashboard": {
             "type": "object",
+            "description": "Values specific to the Dashboarding Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -137,6 +141,8 @@
         },
         "dataHub": {
             "type": "object",
+            "description": "Values specific to the Data Hub Iiot Service",
+            "required": ["loadbalancerIp"],
             "properties": {
                 "certVolume": {
                     "type": "object",
@@ -188,6 +194,7 @@
         },
         "dataModelling": {
             "type": "object",
+            "description": "Values specific to the Data Modelling Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -199,6 +206,7 @@
         },
         "dataStorage": {
             "type": "object",
+            "description": "Values specific to the Data Storage Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -210,6 +218,7 @@
         },
         "deviceManagement": {
             "type": "object",
+            "description": "Values specific to the Device Management Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -220,10 +229,12 @@
             }
         },
         "enableNodeSelectorLinux": {
+            "description": "Enable this in order to deploy all pods on Linux nodes only.",
             "type": "boolean"
         },
         "healthprobes": {
             "type": "object",
+            "description": "Timers for health probes. These define the intervals on which to check if the Iiot Services are running.",
             "properties": {
                 "pollingPeriod": {
                     "type": "integer"
@@ -234,6 +245,7 @@
             }
         },
         "identityService": {
+            "description": "Values specific to the Identity Service Iiot Service",
             "type": "object",
             "properties": {
                 "hostname": {
@@ -246,6 +258,7 @@
         },
         "iiotApi": {
             "type": "object",
+            "description": "Values specific to the Iiot Api Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -257,6 +270,8 @@
         },
         "ingress": {
             "type": "object",
+            "description": "Values on how traffic is routed from the internet to the Iiot Services.",
+            "required": ["iiotServicesDomain", "dataHubDomain"],
             "properties": {
                 "annotations": {
                     "type": "array"
@@ -276,10 +291,12 @@
             }
         },
         "persistenseService": {
+            "description": "Values specific to the Persistence Service Iiot Service. This is the mongoDB database.",
             "type": "object",
             "properties": {
                 "mongodb": {
                     "type": "object",
+                    "required": ["replicaSetKey"],
                     "properties": {
                         "dbConnectionSuffix": {
                             "type": "null"
@@ -298,6 +315,7 @@
                         },
                         "user": {
                             "type": "object",
+                            "required": ["username", "password"],
                             "properties": {
                                 "password": {
                                     "type": "null"
@@ -333,6 +351,7 @@
         },
         "platformConfiguration": {
             "type": "object",
+            "description": "Values specific to the Platform Configuration Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -344,6 +363,7 @@
         },
         "proxyService": {
             "type": "object",
+            "description": "Values specific to the Proxy Service Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -355,6 +375,7 @@
         },
         "redis": {
             "type": "object",
+            "description": "Values specific to Redis, which is used by the Iiot Services",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -366,6 +387,7 @@
         },
         "serviceConfigurationStudio": {
             "type": "object",
+            "description": "Values specific to the Service Configuration Studio Iiot Service",
             "properties": {
                 "hostname": {
                     "type": "string"
@@ -377,6 +399,7 @@
         },
         "sharedVolume": {
             "type": "object",
+            "description": "Values specific to the shared volume used by all Iiot Services to exchange information.",
             "properties": {
                 "accessModes": {
                     "type": "array",
@@ -394,6 +417,7 @@
         },
         "zenonLoggingServer": {
             "type": "object",
+            "description": "Values specific to the zenon Logging Server Iiot Service",
             "properties": {
                 "configVolume": {
                     "type": "object",
