@@ -294,11 +294,9 @@
         "persistenseService": {
             "description": "Values specific to the Persistence Service Iiot Service. This is the mongoDB database.",
             "type": "object",
-            "required": ["mongodb"],
             "properties": {
                 "mongodb": {
                     "type": "object",
-                    "required": ["replicaSetKey", "user"],
                     "properties": {
                         "dbConnectionSuffix": {
                             "type": "null"
@@ -317,7 +315,6 @@
                         },
                         "user": {
                             "type": "object",
-                            "required": ["username", "password"],
                             "properties": {
                                 "password": {
                                     "type": "null"
