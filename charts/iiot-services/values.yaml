@@ -30,7 +30,7 @@ healthprobes:
 
 sharedVolume:
   name: iiot-services-data
-  size: 100MiB
+  size: 100Mi
   accessModes: 
     - ReadWriteMany
 
@@ -40,7 +40,7 @@ certificateManagement:
   port9412: 9412
   persistingVolume:
     name: certificate-management-persistence
-    size: 100MiB
+    size: 100Mi
     accessModes: 
     - ReadWriteMany
 
@@ -54,12 +54,12 @@ dataHub:
   portExternal9411: 9431 #
   certVolume:
     name: data-hub-certs
-    size: 100MiB
+    size: 100Mi
     accessModes: 
     - ReadWriteMany
   persistingVolume:
     name: data-hub-persistence
-    size: 100MiB
+    size: 100Mi
     accessModes: 
     - ReadWriteMany
 
@@ -92,7 +92,7 @@ persistenseService:
   persistenseServiceName: persistence-service
   persistingVolume:
     name: persistence-service-persistence
-    size: 1GiB
+    size: 1Gi
     accessModes: 
     - ReadWriteMany
   mongodb:
@@ -122,12 +122,12 @@ zenonLoggingServer:
   port50780: 50780
   configVolume:
     name: zenon-logging-server-config
-    size: 100MiB
+    size: 100Mi
     accessModes: 
     - ReadWriteMany
   persistingVolume:
     name: zenon-logging-server-persistence
-    size: 100MiB
+    size: 100Mi
     accessModes: 
     - ReadWriteMany
 
