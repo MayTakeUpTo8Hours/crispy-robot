@@ -9,7 +9,7 @@ spec:
   type: ClusterIP
   ports:
   - name: "27017"
-    port: {{ .Values.mongodb.dbPort }}
+    port: {{ .Values.persistenseService.mongodb.dbPort }}
     targetPort: 27017
   selector:
     app: persistence-service
