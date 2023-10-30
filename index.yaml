@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  iiot-services:
+  - apiVersion: v2
+    appVersion: 12.0.2304.15002
+    created: "2023-10-30T14:40:35.539829728Z"
+    description: A Helm chart for Kubernetes
+    digest: 94026e79663c7689e1a00383a063d3813458141603ef7734a5f85f9097f4c573
+    name: iiot-services
+    type: application
+    urls:
+    - https://github.com/MayTakeUpTo8Hours/crispy-robot/releases/download/iiot-services-1.0.0/iiot-services-1.0.0.tgz
+    version: 1.0.0
+generated: "2023-10-30T14:40:35.540177035Z"
