@@ -3,6 +3,7 @@
     "title": "iiot-services",
     "description": "The COPA-DATA zenon Iiot Services.",
     "type": "object",
+    "required": ["ingress", "persistenseService"],
     "properties": {
         "certificateManagement": {
             "type": "object",
@@ -293,10 +294,11 @@
         "persistenseService": {
             "description": "Values specific to the Persistence Service Iiot Service. This is the mongoDB database.",
             "type": "object",
+            "required": ["mongodb"],
             "properties": {
                 "mongodb": {
                     "type": "object",
-                    "required": ["replicaSetKey"],
+                    "required": ["replicaSetKey", "user"],
                     "properties": {
                         "dbConnectionSuffix": {
                             "type": "null"
