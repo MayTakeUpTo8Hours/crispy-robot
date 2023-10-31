@@ -18,8 +18,6 @@ spec:
     spec:
       containers:
       - name: data-hub
-        securityContext: # TODO: remove!!!
-          runAsUser: 0 # TODO: remove!!!
         image: "copadataplayground.azurecr.io/rootlessdata-hub/data-hub:latest"
         imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
         ports:
