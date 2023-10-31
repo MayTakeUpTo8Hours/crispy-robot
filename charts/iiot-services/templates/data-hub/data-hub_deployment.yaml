@@ -17,9 +17,9 @@ spec:
         app: data-hub
     spec:
       containers:
-      securityContext: ### TODO: remove!!!
-          runAsUser: 0 ### TODO: remove!!!
       - name: data-hub
+        securityContext: # TODO: remove!!!
+          runAsUser: 0 # TODO: remove!!!
         image: "{{ .Values.containerimages.iiotServicesRegistry }}/{{ .Values.containerimages.iiotServicesRepoPrefix }}/{{ index .Values.containerimages.iiotServicesRepos.dataHubRepo }}:{{ index .Values.containerimages.tags.iiotServices }}"
         imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
         ports:
