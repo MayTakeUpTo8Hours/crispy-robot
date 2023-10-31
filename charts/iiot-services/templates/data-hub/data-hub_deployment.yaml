@@ -20,7 +20,7 @@ spec:
       - name: data-hub
         securityContext: # TODO: remove!!!
           runAsUser: 0 # TODO: remove!!!
-        image: "{{ .Values.containerimages.iiotServicesRegistry }}/{{ .Values.containerimages.iiotServicesRepoPrefix }}/{{ index .Values.containerimages.iiotServicesRepos.dataHubRepo }}:{{ index .Values.containerimages.tags.iiotServices }}"
+        image: "copadataplayground.azurecr.io/rootlessdata-hub/data-hub:latest"
         imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
         ports:
         - containerPort: 9411
@@ -32,7 +32,8 @@ spec:
         - mountPath: /var/iiot-services-data
           name: iiot-services-data
       restartPolicy: Always
-      imagePullSecrets: {{ toYaml .Values.containerimages.imagePullSecrets | nindent 8 }}
+      imagePullSecrets: 
+        - name: acr-copadataplayground
 {{ if .Values.enableNodeSelectorLinux}}
       nodeSelector:
         kubernetes.io/os: linux
