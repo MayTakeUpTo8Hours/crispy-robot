@@ -17,6 +17,8 @@ spec:
         app: data-hub
     spec:
       containers:
+      securityContext: ### TODO: remove!!!
+          runAsUser: 0 ### TODO: remove!!!
       - name: data-hub
         image: "{{ .Values.containerimages.iiotServicesRegistry }}/{{ .Values.containerimages.iiotServicesRepoPrefix }}/{{ index .Values.containerimages.iiotServicesRepos.dataHubRepo }}:{{ index .Values.containerimages.tags.iiotServices }}"
         imagePullPolicy: {{ .Values.containerimages.imagePullPolicy }}
@@ -25,7 +27,7 @@ spec:
         volumeMounts:
         - mountPath: /mosquitto/data
           name: data-hub-persistence
-        - mountPath: /mosquitto/certs/
+        - mountPath: /mosquitto/certs
           name: data-hub
         - mountPath: /var/iiot-services-data
           name: iiot-services-data
